@@ -2,15 +2,19 @@ import { Injectable } from '@nestjs/common';
 import { JwtService as Jwt } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import 'dotenv/config';
-import { UsersService } from 'src/users/users.service';
 import { User } from 'src/users/entities/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class JwtService {
-  constructor(private jwt: Jwt, private usersService: UsersService) {}
+  constructor(private jwt: Jwt) {}
+
+  @InjectRepository(User)
+  private readonly userRepository: Repository<User>;
 
   public async validateUser(decode: any): Promise<any> {
-    return this.usersService.findOne(decode.id);
+    return this.userRepository.findOne(decode.id);
   }
 
   public async generateToken(user: User): Promise<string> {
@@ -21,7 +25,7 @@ export class JwtService {
         name: user.name,
       },
       {
-        expiresIn: '1h',
+        expiresIn: process.env.JWT_EXPIRATION,
       },
     );
   }

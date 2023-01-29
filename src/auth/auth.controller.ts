@@ -1,5 +1,11 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { RegisterRqDto } from './auth.dto';
+import { BaseResponse } from 'src/utils/dto/response.dto';
+import {
+  LoginRqDto,
+  LoginRsDTO,
+  RegisterRqDto,
+  RegisterRsDTO,
+} from './auth.dto';
 import { AuthService } from './service/auth.service';
 
 @Controller('auth')
@@ -7,7 +13,16 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post()
-  register(@Body() payload: RegisterRqDto) {
+  register(
+    @Body() payload: RegisterRqDto,
+  ): Promise<BaseResponse<RegisterRsDTO>> {
     return this.authService.register(payload);
+  }
+
+  @Post('login')
+  private async login(
+    @Body() body: LoginRqDto,
+  ): Promise<BaseResponse<LoginRsDTO>> {
+    return this.authService.login(body);
   }
 }

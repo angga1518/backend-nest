@@ -18,3 +18,17 @@ export class RegisterRsDTO {
   email: string;
   name: string;
 }
+
+export class LoginRqDto {
+  @IsEmail()
+  @IsNotEmpty()
+  public readonly email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  public readonly password: string;
+}
+
+export class LoginRsDTO {
+  token: string;
+}

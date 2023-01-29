@@ -7,7 +7,7 @@ export class ResponseUtilService {
     return {
       status: HttpStatus.CREATED,
       error: [],
-      data,
+      data: data,
     };
   }
 
@@ -22,6 +22,14 @@ export class ResponseUtilService {
   public errorBadRequestResponse(error: string[]): BaseResponse<any> {
     return {
       status: HttpStatus.BAD_REQUEST,
+      error: error,
+      data: null,
+    };
+  }
+
+  public errorNotFoundResponse(error: string[]): BaseResponse<any> {
+    return {
+      status: HttpStatus.NOT_FOUND,
       error: error,
       data: null,
     };
