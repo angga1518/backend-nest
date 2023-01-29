@@ -12,11 +12,11 @@ import { AuthService } from './service/auth.service';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post()
-  register(
+  @Post('register')
+  private async register(
     @Body() payload: RegisterRqDto,
   ): Promise<BaseResponse<RegisterRsDTO>> {
-    return this.authService.register(payload);
+    return await this.authService.register(payload);
   }
 
   @Post('login')

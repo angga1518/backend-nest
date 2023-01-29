@@ -3,7 +3,15 @@ import { BaseResponse } from '../dto/response.dto';
 
 @Injectable()
 export class ResponseUtilService {
-  public successResponse(data: any): BaseResponse<any> {
+  public successOkResponse(data: any): BaseResponse<any> {
+    return {
+      status: HttpStatus.OK,
+      error: [],
+      data: data,
+    };
+  }
+
+  public successCreatedResponse(data: any): BaseResponse<any> {
     return {
       status: HttpStatus.CREATED,
       error: [],

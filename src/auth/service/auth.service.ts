@@ -27,18 +27,20 @@ export class AuthService {
     password,
     name,
   }: RegisterRqDto): Promise<BaseResponse<RegisterRsDTO>> {
+    console.log(`register account: ${email}`);
+
     const user = new User();
     user.email = email;
     user.name = name;
     user.password = this.jwtService.encodePassword(password);
 
     try {
-      await this.userRepository.create(user);
+      await this.userRepository.save(user);
     } catch {
       return this.responseUtil.errorConflictResponse(['e-mail already exist']);
     }
 
-    return this.responseUtil.successResponse({
+    return this.responseUtil.successCreatedResponse({
       name: name,
       email: email,
     });
@@ -48,6 +50,8 @@ export class AuthService {
     email,
     password,
   }: LoginRqDto): Promise<BaseResponse<LoginRsDTO>> {
+    console.log(`login account: ${email}`);
+
     const user: User | null = await this.userRepository.findOne({
       where: { email },
     });
@@ -67,7 +71,7 @@ export class AuthService {
 
     const token = await this.jwtService.generateToken(user);
 
-    return this.responseUtil.successResponse({
+    return this.responseUtil.successOkResponse({
       token: token,
     });
   }
