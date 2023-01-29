@@ -17,8 +17,8 @@ import { UtilsModule } from './utils/utils.module';
       entities: [User],
       synchronize: true,
     }),
-    AuthModule,
     UsersModule,
+    AuthModule,
     UtilsModule,
   ],
 })
