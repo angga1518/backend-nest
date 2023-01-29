@@ -28,9 +28,23 @@
 
 ## Installation
 
+1. Install dependencies:
 ```bash
 $ yarn install
 ```
+
+2. Copy environment example file:
+```bash
+$ cp .env.example .env
+```
+
+3. Update environment file with correct configuration:
+```bash
+$ nano .env
+```
+
+Make sure to update the database configuration in the .env file to match your setup.
+
 
 ## Running the app
 
@@ -43,19 +57,6 @@ $ yarn run start:dev
 
 # production mode
 $ yarn run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
 ```
 
 ## Support
