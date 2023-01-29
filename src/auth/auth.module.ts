@@ -4,11 +4,13 @@ import { AuthController } from './auth.controller';
 import { UsersModule } from 'src/users/users.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
+import { UtilsModule } from 'src/utils/utils.module';
 
 @Module({
   imports: [
     UsersModule,
     PassportModule,
+    UtilsModule,
     JwtModule.register({
       secret: process.env.SECRET_KEY,
       signOptions: { expiresIn: process.env.JWT_EXPIRATION },

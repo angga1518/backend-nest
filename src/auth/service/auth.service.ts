@@ -1,13 +1,16 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { User } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
-import { BaseResponse, RegisterRqDto, RegisterRsDTO } from '../auth.dto';
+import { BaseResponse } from 'src/utils/dto/response.dto';
+import { ResponseUtilService } from 'src/utils/service/response.service';
+import { RegisterRqDto, RegisterRsDTO } from '../auth.dto';
 import { JwtService } from './jwt.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
+    private responseUtil: ResponseUtilService,
     private jwtService: JwtService,
   ) {}
 
@@ -24,23 +27,12 @@ export class AuthService {
     try {
       await this.usersService.create(user);
     } catch {
-      return {
-        status: HttpStatus.CONFLICT,
-        error: ['e-mail already exist'],
-        data: {
-          name: name,
-          email: email,
-        },
-      };
+      return this.responseUtil.errorConflictResponse(['e-mail already exist']);
     }
 
-    return {
-      status: HttpStatus.CREATED,
-      error: [],
-      data: {
-        name: name,
-        email: email,
-      },
-    };
+    return this.responseUtil.successResponse({
+      name: name,
+      email: email,
+    });
   }
 }
