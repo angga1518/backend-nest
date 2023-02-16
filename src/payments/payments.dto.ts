@@ -1,17 +1,32 @@
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreatePaymentRq {
-  @IsEmail()
+  @IsString()
   @IsNotEmpty()
-  public readonly email: string;
+  external_id: string;
 
   @IsString()
   @IsNotEmpty()
-  public readonly name: string;
+  currency: string;
+
+  @IsNotEmpty()
+  amount: number;
 
   @IsString()
   @IsNotEmpty()
-  public readonly password: string;
+  payerEmail: string;
+
+  @IsString()
+  @IsNotEmpty()
+  description: string;
+
+  @IsString()
+  @IsNotEmpty()
+  failureRedirectUrl: string;
+
+  @IsString()
+  @IsNotEmpty()
+  successRedirectUrl: string;
 }
 
 export class CreatePaymentRs {
