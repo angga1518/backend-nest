@@ -4,7 +4,7 @@ import { ResponseUtilService } from 'src/utils/service/response.service';
 import { CreatePaymentRq, CreatePaymentRs } from './payments.dto';
 
 @Injectable()
-export class PaymentsService {
+export class PaymentsClientService {
   constructor(private responseUtil: ResponseUtilService) {}
 
   public async createPayment({
