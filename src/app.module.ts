@@ -11,6 +11,7 @@ import { User } from './users/entities/user.entity';
 import { UtilsModule } from './utils/utils.module';
 import { HeaderMiddleware } from './middleware/header.middleware';
 import { LoggerMiddleware } from './middleware/logger.middleware';
+import { PaymentsModule } from './payments/payments.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { LoggerMiddleware } from './middleware/logger.middleware';
     UsersModule,
     AuthModule,
     UtilsModule,
+    PaymentsModule,
   ],
 })
 export class AppModule implements NestModule {
