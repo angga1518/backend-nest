@@ -1,35 +1,107 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsEmail,
+  IsNotEmpty,
+  IsNumber,
+  IsObject,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 
-export class CreatePaymentRq {
+class AddressDto {
   @IsString()
+  city: string;
+
+  @IsString()
+  country: string;
+
+  @IsString()
+  postal_code: string;
+
+  @IsString()
+  state: string;
+
+  @IsString()
+  street_line1: string;
+
+  @IsString()
+  street_line2: string;
+}
+
+class CustomerDto {
+  @IsString()
+  given_names: string;
+
+  @IsString()
+  surname: string;
+
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  mobile_number: string;
+
   @IsNotEmpty()
+  @IsObject()
+  @ValidateNested()
+  addresses: AddressDto[];
+}
+
+export class CreatePaymentRqDto {
+  @IsNotEmpty()
+  @IsString()
   external_id: string;
 
-  @IsString()
   @IsNotEmpty()
+  @IsString()
+  description: string;
+
+  @IsNotEmpty()
+  @IsString()
   currency: string;
 
   @IsNotEmpty()
+  @IsNumber()
   amount: number;
 
-  @IsString()
   @IsNotEmpty()
-  payerEmail: string;
+  @IsString()
+  failure_redirect_url: string;
 
-  @IsString()
   @IsNotEmpty()
-  description: string;
+  @IsString()
+  success_redirect_url: string;
 
-  @IsString()
   @IsNotEmpty()
-  failureRedirectUrl: string;
+  @IsString()
+  customer: CustomerDto;
 
-  @IsString()
   @IsNotEmpty()
-  successRedirectUrl: string;
+  @IsArray()
+  @IsString({ each: true })
+  payment_methods: string[];
+
+  @IsNotEmpty()
+  @IsObject()
+  @ValidateNested()
+  customer_notification_preference: CustomerNotificationPreferencesDto;
 }
 
-export class CreatePaymentRs {
+class CustomerNotificationPreferencesDto {
+  @IsArray()
+  invoice_created: string[];
+
+  @IsArray()
+  invoice_reminder: string[];
+
+  @IsArray()
+  invoice_paid: string[];
+
+  @IsArray()
+  invoice_expired: string[];
+}
+
+export class CreatePaymentRsDto {
   @IsEmail()
   @IsNotEmpty()
   public readonly email: string;
