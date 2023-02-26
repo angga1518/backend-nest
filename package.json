@@ -19,9 +19,9 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "ts-node node_modules/typeorm/cli.js",
-    "migration:create": "ts-node ./src/migrations/migration.ts  -d ./src/datasource.ts",
-    "migration:run": "typeorm migration:run -d ./src/datasource.ts",
-    "migration:revert": "typeorm migration:revert  -d ./src/datasource.ts"
+    "migration:create": "ts-node ./src/migration.ts  -d ./src/datasource.ts",
+    "migration:run": "yarn typeorm-ts-node-commonjs migration:run -d ./src/datasource.ts",
+    "migration:revert": "yarn typeorm-ts-node-commonjs migration:revert  -d ./src/datasource.ts"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",

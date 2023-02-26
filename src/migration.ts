@@ -1,6 +1,6 @@
 import { exec } from 'child_process';
 
-const command = `yarn typeorm migration:create ./src/migrations/${process.argv[4]}`;
+const command = `yarn typeorm migration:generate ./src/migrations/${process.argv[4]}`;
 
 (() =>
   exec(command, (error, stdout, stderr) => {
