@@ -22,7 +22,7 @@ import { LoggerMiddleware } from './middleware/logger.middleware';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       entities: [User],
-      synchronize: process.env.NODE_ENV === 'development',
+      // synchronize: process.env.NODE_ENV === 'development', Note: use migrations instead
     }),
     UsersModule,
     AuthModule,
