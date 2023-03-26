@@ -12,89 +12,55 @@ import {
 } from 'class-validator';
 
 export enum PaymentStatus {
-  PAID = 'PAID',
-  EXPIRED = 'EXPIRED',
+  CAPTURE = 'capture',
+  SETTLEMENT = 'settlement',
+  PENDING = 'pending',
 }
 
 export class ItemDto {
-  @IsString()
   name: string;
-
-  @IsNumber()
   quantity: number;
-
-  @IsNumber()
   price: number;
+}
 
-  @IsString()
-  category: string;
+class TransactionDto {
+  order_id: string;
+  gross_amount: string;
 }
 
 class CustomerDto {
-  @IsEmail()
+  first_name: string;
+  last_name: string;
   email: string;
-
-  @IsPhoneNumber()
-  mobile_number: string;
+  phone: string;
 }
 
-class CustomerNotificationPreferenceDto {
-  @IsString()
-  invoice_created: string[] | null;
-  @IsString()
-  invoice_reminder: string[] | null;
-  @IsString()
-  invoice_paid: string[] | null;
-  @IsString()
-  invoice_expired: string[] | null;
+class CreditCardDto {
+  secure: boolean;
+}
+
+class ExpiryDto {
+  unit: string;
+  duration: number;
 }
 
 export class PaymentRqDto {
-  @IsString()
-  external_id: string;
-
-  @IsNumber()
-  amount: number;
-
-  @IsString()
-  description: string;
-
-  // in seconds
-  @IsNumber()
-  invoice_duration: number;
-
-  @IsObject()
-  @ValidateNested()
-  customer: CustomerDto;
-
-  @ValidateNested()
-  customer_notification_preference: CustomerNotificationPreferenceDto;
-
-  @IsUrl()
-  success_redirect_url: string;
-
-  @IsUrl()
-  failure_redirect_url: string;
-
-  @IsString()
-  currency: string;
-
-  payment_methods: string[] | null;
-
-  @IsArray()
-  @ValidateNested({ each: true })
-  items: ItemDto[];
+  transaction_details: TransactionDto;
+  item_details: ItemDto[];
+  customer_details: CustomerDto;
+  enabled_payments: string[];
+  credit_card: CreditCardDto;
+  expiry: ExpiryDto;
 }
 
-export class callbackPaymentDto {
-  @IsNotEmpty()
-  @IsString()
-  external_id: string;
-
-  @IsNotEmpty()
-  @IsEnum(PaymentStatus)
-  status: PaymentStatus;
-
-  @IsString()
-  payment_channel: string;
+export class CallbackPaymentDto {
+  transaction_time: string;
+  transaction_status: PaymentStatus;
+  transaction_id: string;
+  status_message: string;
+  status_code: string;
+  signature_key: string;
+  payment_type: string;
+  order_id: string;
+  gross_amount: string;
 }
