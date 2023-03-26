@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ResponseUtilService } from './service/response.service';
+import { DatesModule } from './service/dates/dates.module';
+import { ResponsesModule } from './service/responses/responses.module';
 
 @Module({
-  providers: [ResponseUtilService],
-  exports: [ResponseUtilService],
+  imports: [DatesModule, ResponsesModule],
+  exports: [DatesModule, ResponsesModule],
 })
 export class UtilsModule {}
