@@ -1,12 +1,12 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { BaseResponse } from '../dto/response.dto';
+import { BaseResponse } from '../../dto/response.dto';
 
 @Injectable()
 export class ResponseUtilService {
   public successOkResponse(data: any): BaseResponse<any> {
     return {
       status: HttpStatus.OK,
-      error: [],
+      error: null,
       data: data,
     };
   }
@@ -14,8 +14,16 @@ export class ResponseUtilService {
   public successCreatedResponse(data: any): BaseResponse<any> {
     return {
       status: HttpStatus.CREATED,
-      error: [],
+      error: null,
       data: data,
+    };
+  }
+
+  public errorInternalServerErrorResponse(error: string[]): BaseResponse<any> {
+    return {
+      status: HttpStatus.INTERNAL_SERVER_ERROR,
+      error: error,
+      data: null,
     };
   }
 

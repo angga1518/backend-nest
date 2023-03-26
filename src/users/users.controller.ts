@@ -1,20 +1,28 @@
 import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { ResponseUtilService } from 'src/utils/service/responses/responses.service';
 import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly responseUtil: ResponseUtilService,
+  ) {}
 
   @Get()
   @UseGuards(AuthGuard)
-  findAll() {
-    return this.usersService.findAll();
+  async findAll() {
+    return this.responseUtil.successOkResponse(
+      await this.usersService.findAll(),
+    );
   }
 
   @Get(':id')
   @UseGuards(AuthGuard)
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return this.responseUtil.successOkResponse(
+      await this.usersService.findById(id),
+    );
   }
 }

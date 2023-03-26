@@ -5,6 +5,7 @@ import 'dotenv/config';
 import { User } from 'src/users/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Token } from '../auth.dto';
 
 @Injectable()
 export class JwtService {
@@ -17,17 +18,56 @@ export class JwtService {
     return this.userRepository.findOne(decode.id);
   }
 
-  public async generateToken(user: User): Promise<string> {
-    return this.jwt.sign(
+  public generateTokenWithRefreshToken(user: User): Token {
+    const accessToken = this.jwt.sign(
       {
         id: user.id,
         email: user.email,
         name: user.name,
+        phone_number: user.phone_number,
+        image_url: user.image_url,
       },
       {
         expiresIn: process.env.JWT_EXPIRATION,
       },
     );
+    const refreshToken = this.jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        phone_number: user.phone_number,
+        image_url: user.image_url,
+      },
+      {
+        expiresIn: '7d',
+      },
+    );
+
+    return {
+      token: accessToken,
+      refresh_token: refreshToken,
+    };
+  }
+
+  public generateToken(user: User): Token {
+    const accessToken = this.jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        phone_number: user.phone_number,
+        image_url: user.image_url,
+      },
+      {
+        expiresIn: process.env.JWT_EXPIRATION,
+      },
+    );
+
+    return {
+      token: accessToken,
+      refresh_token: null,
+    };
   }
 
   public isPasswordValid(password: string, userPassword: string): boolean {
