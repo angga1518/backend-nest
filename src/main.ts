@@ -4,6 +4,14 @@ import { Logger } from 'nestjs-pino';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
+  app.useGlobalPipes(
+    new ValidationPipe({
+      enableDebugMessages: true,
+      errorHttpStatusCode: 400,
+      always: true,
+      forbidUnknownValues: false,
+    }),
+  );
   app.useLogger(app.get(Logger));
   app.enableCors();
 
