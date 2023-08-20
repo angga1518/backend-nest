@@ -5,7 +5,8 @@ import { BaseResponse } from '../../dto/response.dto';
 export class ResponseUtilService {
   public successOkResponse(data: any): BaseResponse<any> {
     return {
-      status: HttpStatus.OK,
+      statusCode: HttpStatus.OK,
+      message: null,
       error: null,
       data: data,
     };
@@ -13,40 +14,47 @@ export class ResponseUtilService {
 
   public successCreatedResponse(data: any): BaseResponse<any> {
     return {
-      status: HttpStatus.CREATED,
+      statusCode: HttpStatus.CREATED,
+      message: null,
       error: null,
       data: data,
     };
   }
 
-  public errorInternalServerErrorResponse(error: string[]): BaseResponse<any> {
+  public errorInternalServerErrorResponse(
+    errorMessage: string[],
+  ): BaseResponse<any> {
     return {
-      status: HttpStatus.INTERNAL_SERVER_ERROR,
-      error: error,
+      statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+      message: errorMessage,
+      error: 'Internal Server Error',
       data: null,
     };
   }
 
-  public errorConflictResponse(error: string[]): BaseResponse<any> {
+  public errorConflictResponse(errorMessage: string[]): BaseResponse<any> {
     return {
-      status: HttpStatus.CONFLICT,
-      error: error,
+      statusCode: HttpStatus.CONFLICT,
+      message: errorMessage,
+      error: 'Error Entity Conflict',
       data: null,
     };
   }
 
-  public errorBadRequestResponse(error: string[]): BaseResponse<any> {
+  public errorBadRequestResponse(errorMessage: string[]): BaseResponse<any> {
     return {
-      status: HttpStatus.BAD_REQUEST,
-      error: error,
+      statusCode: HttpStatus.BAD_REQUEST,
+      message: errorMessage,
+      error: 'Bad Request',
       data: null,
     };
   }
 
-  public errorNotFoundResponse(error: string[]): BaseResponse<any> {
+  public errorNotFoundResponse(errorMessage: string[]): BaseResponse<any> {
     return {
-      status: HttpStatus.NOT_FOUND,
-      error: error,
+      statusCode: HttpStatus.NOT_FOUND,
+      message: errorMessage,
+      error: 'Not Found',
       data: null,
     };
   }

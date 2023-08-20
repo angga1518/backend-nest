@@ -1,5 +1,6 @@
 export class BaseResponse<T> {
-  status: number;
-  error: string[] | null;
+  statusCode: number;
+  message: string[] | null;
+  error: string | null;
   data: T;
 }
