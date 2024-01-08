@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { JwtService as Jwt } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import 'dotenv/config';
-import { User } from 'src/users/entities/user.entity';
+import { User } from 'src/auth-users/auth-users.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Token } from '../auth.dto';
+import { Token } from '../auth-users.dto';
 
 @Injectable()
 export class JwtService {
@@ -22,10 +22,7 @@ export class JwtService {
     const accessToken = this.jwt.sign(
       {
         id: user.id,
-        email: user.email,
-        name: user.name,
-        phone_number: user.phone_number,
-        image_url: user.image_url,
+        role: user.role,
       },
       {
         expiresIn: process.env.JWT_EXPIRATION,
@@ -34,10 +31,7 @@ export class JwtService {
     const refreshToken = this.jwt.sign(
       {
         id: user.id,
-        email: user.email,
-        name: user.name,
-        phone_number: user.phone_number,
-        image_url: user.image_url,
+        role: user.role,
       },
       {
         expiresIn: '7d',
@@ -46,7 +40,7 @@ export class JwtService {
 
     return {
       token: accessToken,
-      refresh_token: refreshToken,
+      refreshToken: refreshToken,
     };
   }
 
@@ -54,10 +48,7 @@ export class JwtService {
     const accessToken = this.jwt.sign(
       {
         id: user.id,
-        email: user.email,
-        name: user.name,
-        phone_number: user.phone_number,
-        image_url: user.image_url,
+        role: user.role,
       },
       {
         expiresIn: process.env.JWT_EXPIRATION,
@@ -66,7 +57,7 @@ export class JwtService {
 
     return {
       token: accessToken,
-      refresh_token: null,
+      refreshToken: null,
     };
   }
 

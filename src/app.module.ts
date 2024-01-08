@@ -6,15 +6,16 @@ import {
 } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
-import { User } from './users/entities/user.entity';
 import { UtilsModule } from './utils/utils.module';
 import { HeaderMiddleware } from './middleware/header.middleware';
 import { LoggerModule } from 'nestjs-pino';
 import { randomUUID } from 'node:crypto';
 import * as moment from 'moment-timezone';
 import { MainController } from './main.controller';
+import { AuthUsersModule } from './auth-users/auth-users.module';
+import { User } from './auth-users/auth-users.entity';
+import { CommonModule } from './common/common.module';
+import { RedisModule } from '@liaoliaots/nestjs-redis';
 
 @Module({
   imports: [
@@ -27,6 +28,13 @@ import { MainController } from './main.controller';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       entities: [User],
+    }),
+    RedisModule.forRoot({
+      config: {
+        host: process.env.REDIS_HOST ?? 'localhost',
+        port: parseInt(process.env.REDIS_PORT || '6379', 10),
+        password: process.env.REDIS_PASSWORD ?? '',
+      },
     }),
     LoggerModule.forRoot({
       pinoHttp: {
@@ -49,9 +57,9 @@ import { MainController } from './main.controller';
         timestamp: () => `,"time":"${moment().tz('Asia/Bangkok').format()}"`,
       },
     }),
-    UsersModule,
-    AuthModule,
+    AuthUsersModule,
     UtilsModule,
+    CommonModule,
   ],
   controllers: [MainController],
 })

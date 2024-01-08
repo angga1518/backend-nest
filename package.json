@@ -24,6 +24,7 @@
     "migration:revert": "yarn typeorm-ts-node-commonjs migration:revert  -d ./src/datasource.ts"
   },
   "dependencies": {
+    "@liaoliaots/nestjs-redis": "^9.0.5",
     "@nestjs/axios": "^2.0.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.2",
@@ -39,6 +40,7 @@
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "ioredis": "^5.3.2",
     "moment-timezone": "^0.5.41",
     "nestjs-pino": "^3.1.2",
     "passport": "^0.6.0",
